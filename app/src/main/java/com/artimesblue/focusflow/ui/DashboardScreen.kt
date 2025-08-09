@@ -26,7 +26,9 @@ fun DashboardScreen(
     Scaffold(
         topBar = { TopAppBar(title = { Text("FocusFlow") }) },
         floatingActionButton = {
-            ExtendedFloatingActionButton(text = { Text("Nieuwe gewoonte") }, onClick = onAdd)
+            ExtendedFloatingActionButton(onClick = onAdd) {
+                Text("Nieuwe gewoonte")
+            }
         }
     ) { padding ->
         Column(Modifier.padding(padding).padding(16.dp).fillMaxSize()) {
@@ -59,7 +61,7 @@ private fun HabitCard(habit: Habit, onQuickAdd: (Int) -> Unit) {
         Column(Modifier.padding(16.dp)) {
             Text(habit.name, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text("Dagdoel: ${habit.dailyGoal} ${habit.unit}")
                 Spacer(Modifier.weight(1f))
                 AssistChip(onClick = { onQuickAdd(1) }, label = { Text("+1") })

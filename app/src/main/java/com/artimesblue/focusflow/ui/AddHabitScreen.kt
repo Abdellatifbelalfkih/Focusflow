@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,11 +19,22 @@ fun AddHabitScreen(onDone: () -> Unit) {
 
     Scaffold(topBar = { TopAppBar(title = { Text("Nieuwe gewoonte") }) }) { padding ->
         Column(Modifier.padding(padding).padding(16.dp)) {
-            OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Naam") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                value = name, onValueChange = { name = it },
+                label = { Text("Naam") }, modifier = Modifier.fillMaxWidth()
+            )
             Spacer(Modifier.height(12.dp))
-            OutlinedTextField(value = goal, onValueChange = { goal = it }, label = { Text("Dagdoel") }, keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                value = goal, onValueChange = { goal = it },
+                label = { Text("Dagdoel") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(Modifier.height(12.dp))
-            OutlinedTextField(value = unit, onValueChange = { unit = it }, label = { Text("Eenheid (bijv. min, reps)") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                value = unit, onValueChange = { unit = it },
+                label = { Text("Eenheid (bijv. min, reps)") }, modifier = Modifier.fillMaxWidth()
+            )
             Spacer(Modifier.height(16.dp))
             Button(onClick = {
                 val g = goal.toIntOrNull() ?: 0
