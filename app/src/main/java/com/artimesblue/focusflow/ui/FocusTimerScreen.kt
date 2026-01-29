@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FocusTimerScreen(onBack: () -> Unit) {
     var total by remember { mutableStateOf(25 * 60) } // seconds

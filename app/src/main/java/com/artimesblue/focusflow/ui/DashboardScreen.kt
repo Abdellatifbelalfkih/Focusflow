@@ -9,10 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.data.Habit
 import com.artimesblue.focusflow.domain.DashboardViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     onAdd: () -> Unit,
@@ -45,7 +48,8 @@ fun DashboardScreen(
             } else {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(state.habits) { habit ->
-                        HabitCard(habit = habit) { amount ->
+                        val currentProgress = state.today.filter { it.habitId == habit.id }.sumOf { it.amount }
+                        HabitCard(habit = habit, currentProgress = currentProgress) { amount ->
                             vm.addProgress(habit.id, amount)
                         }
                     }
@@ -56,13 +60,31 @@ fun DashboardScreen(
 }
 
 @Composable
-private fun HabitCard(habit: Habit, onQuickAdd: (Int) -> Unit) {
+private fun HabitCard(habit: Habit, currentProgress: Int, onQuickAdd: (Int) -> Unit) {
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
-            Text(habit.name, style = MaterialTheme.typography.titleMedium)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(habit.name, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "$currentProgress / ${habit.dailyGoal} ${habit.unit}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
             Spacer(Modifier.height(8.dp))
+            LinearProgressIndicator(
+                progress = { (currentProgress.toFloat() / habit.dailyGoal.toFloat()).coerceIn(0f, 1f) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(4.dp))
+            )
+            Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text("Dagdoel: ${habit.dailyGoal} ${habit.unit}")
                 Spacer(Modifier.weight(1f))
                 AssistChip(onClick = { onQuickAdd(1) }, label = { Text("+1") })
                 AssistChip(onClick = { onQuickAdd(5) }, label = { Text("+5") })
