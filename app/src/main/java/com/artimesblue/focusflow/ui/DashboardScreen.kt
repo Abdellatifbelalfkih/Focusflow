@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.data.Habit
 import com.artimesblue.focusflow.domain.DashboardViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     onAdd: () -> Unit,
