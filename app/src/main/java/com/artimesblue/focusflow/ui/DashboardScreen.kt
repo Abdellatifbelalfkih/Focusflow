@@ -9,7 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+<<<<<<< HEAD
 <<<<<<< ours
+=======
+import androidx.compose.ui.res.painterResource
+>>>>>>> 581a3ab1464d099f6f410996da9d2cd58a64843f
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
 =======
