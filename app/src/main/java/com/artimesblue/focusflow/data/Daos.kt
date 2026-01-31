@@ -26,3 +26,21 @@ interface ProgressDao {
     @Insert
     suspend fun insert(entry: ProgressEntry): Long
 }
+
+@Dao
+interface GoalDao {
+    @Query("SELECT * FROM goals ORDER BY id DESC")
+    fun getAll(): Flow<List<Goal>>
+
+    @Insert
+    suspend fun insert(goal: Goal): Long
+}
+
+@Dao
+interface TaskEntryDao {
+    @Query("SELECT * FROM task_entries WHERE date = :date")
+    fun streamForDay(date: String): Flow<List<TaskEntry>>
+
+    @Insert
+    suspend fun insert(taskEntry: TaskEntry): Long
+}
