@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="seed">#4F46E5</color>
+    <string name="app_name">FocusFlow</string>
+    <style name="Theme.FocusFlow" parent="Theme.Material3.DayNight.NoActionBar">
+
+
+    </style>
+</resources>
