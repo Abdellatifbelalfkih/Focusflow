@@ -9,16 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-<<<<<<< HEAD
-<<<<<<< ours
-=======
 import androidx.compose.ui.res.painterResource
->>>>>>> 581a3ab1464d099f6f410996da9d2cd58a64843f
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
-=======
-import androidx.compose.ui.res.painterResource
->>>>>>> theirs
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
@@ -161,9 +156,27 @@ private fun HabitCard(habit: Habit, currentProgress: Int, onQuickAdd: (Int) -> U
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Spacer(Modifier.weight(1f))
-                AssistChip(onClick = { onQuickAdd(1) }, label = { Text("+1") })
-                AssistChip(onClick = { onQuickAdd(5) }, label = { Text("+5") })
-                AssistChip(onClick = { onQuickAdd(10) }, label = { Text("+10") })
+                AssistChip(
+                    onClick = { onQuickAdd(1) },
+                    label = { Text("+1") },
+                    modifier = Modifier.semantics {
+                        contentDescription = "Voeg 1 ${habit.unit} toe aan ${habit.name}"
+                    }
+                )
+                AssistChip(
+                    onClick = { onQuickAdd(5) },
+                    label = { Text("+5") },
+                    modifier = Modifier.semantics {
+                        contentDescription = "Voeg 5 ${habit.unit} toe aan ${habit.name}"
+                    }
+                )
+                AssistChip(
+                    onClick = { onQuickAdd(10) },
+                    label = { Text("+10") },
+                    modifier = Modifier.semantics {
+                        contentDescription = "Voeg 10 ${habit.unit} toe aan ${habit.name}"
+                    }
+                )
             }
         }
     }
