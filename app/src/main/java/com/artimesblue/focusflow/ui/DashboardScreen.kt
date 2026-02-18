@@ -9,18 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-<<<<<<< HEAD
-<<<<<<< ours
-=======
 import androidx.compose.ui.res.painterResource
->>>>>>> 581a3ab1464d099f6f410996da9d2cd58a64843f
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
-=======
-import androidx.compose.ui.res.painterResource
->>>>>>> theirs
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -105,7 +98,7 @@ fun DashboardScreen(
             } else {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(state.habits) { habit ->
-                        val currentProgress = state.today.filter { it.habitId == habit.id }.sumOf { it.amount }
+                        val currentProgress = state.habitProgress[habit.id] ?: 0
                         HabitCard(habit = habit, currentProgress = currentProgress) { amount ->
                             vm.addProgress(habit.id, amount)
                         }

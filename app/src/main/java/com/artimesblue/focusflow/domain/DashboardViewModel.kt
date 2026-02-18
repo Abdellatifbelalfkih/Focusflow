@@ -24,7 +24,8 @@ data class DashboardState(
     val selectedDate: LocalDate = LocalDate.now(),
     val totalXp: Int = 0,
     val xpByCategory: Map<String, Int> = emptyMap(),
-    val lastCompletionXp: Int? = null
+    val lastCompletionXp: Int? = null,
+    val habitProgress: Map<Long, Int> = emptyMap()
 )
 
 private data class DashboardSource(
@@ -61,6 +62,10 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
                 acc
             }
             val totalXp = xpByCategory.values.sum()
+
+            val habitProgress = source.today.groupBy { it.habitId }
+                .mapValues { (_, entries) -> entries.sumOf { it.amount } }
+
             DashboardState(
                 habits = source.habits,
                 today = source.today,
@@ -69,7 +74,8 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
                 selectedDate = source.date,
                 totalXp = totalXp,
                 xpByCategory = xpByCategory,
-                lastCompletionXp = source.completionXp
+                lastCompletionXp = source.completionXp,
+                habitProgress = habitProgress
             )
         }
             .stateIn(viewModelScope, SharingStarted.Eagerly, DashboardState())
