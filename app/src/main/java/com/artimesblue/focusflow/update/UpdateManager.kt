@@ -7,6 +7,8 @@ import android.os.Environment
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val PREFS_NAME = "focusflow_updates"
 private const val PREF_DOWNLOAD_ID = "download_id"
@@ -17,7 +19,7 @@ class UpdateManager(private val context: Context) {
         val downloadUrl: String
     )
 
-    fun checkForUpdate(): UpdateInfo? {
+    suspend fun checkForUpdate(): UpdateInfo? {
         val currentVersion = context.packageManager
             .getPackageInfo(context.packageName, 0)
             .versionName
@@ -84,15 +86,15 @@ class UpdateManager(private val context: Context) {
         return manager.getUriForDownloadedFile(downloadId)
     }
 
-    private fun fetchLatestReleaseJson(): JSONObject? {
-        return try {
+    private suspend fun fetchLatestReleaseJson(): JSONObject? = withContext(Dispatchers.IO) {
+        try {
             val url = URL("https://api.github.com/repos/Abdellatifbelalfkih/Focusflow/releases/latest")
             val connection = (url.openConnection() as HttpURLConnection).apply {
                 connectTimeout = 10_000
                 readTimeout = 10_000
                 setRequestProperty("Accept", "application/vnd.github+json")
             }
-            if (connection.responseCode !in 200..299) return null
+            if (connection.responseCode !in 200..299) return@withContext null
             connection.inputStream.use { stream ->
                 val body = stream.bufferedReader().readText()
                 JSONObject(body)
