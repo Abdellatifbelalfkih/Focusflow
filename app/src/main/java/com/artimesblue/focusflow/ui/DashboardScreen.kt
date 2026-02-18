@@ -9,20 +9,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-<<<<<<< HEAD
-<<<<<<< ours
-=======
 import androidx.compose.ui.res.painterResource
->>>>>>> 581a3ab1464d099f6f410996da9d2cd58a64843f
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
-=======
-import androidx.compose.ui.res.painterResource
->>>>>>> theirs
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.R
 import com.artimesblue.focusflow.data.Habit
@@ -136,6 +132,10 @@ fun DashboardScreen(
 @Composable
 private fun HabitCard(habit: Habit, currentProgress: Int, onQuickAdd: (Int) -> Unit) {
     val progress = (currentProgress.toFloat() / habit.dailyGoal.toFloat()).coerceIn(0f, 1f)
+    val cd1 = stringResource(R.string.add_amount_to_habit, 1, habit.unit, habit.name)
+    val cd5 = stringResource(R.string.add_amount_to_habit, 5, habit.unit, habit.name)
+    val cd10 = stringResource(R.string.add_amount_to_habit, 10, habit.unit, habit.name)
+
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Row(
@@ -161,9 +161,27 @@ private fun HabitCard(habit: Habit, currentProgress: Int, onQuickAdd: (Int) -> U
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Spacer(Modifier.weight(1f))
-                AssistChip(onClick = { onQuickAdd(1) }, label = { Text("+1") })
-                AssistChip(onClick = { onQuickAdd(5) }, label = { Text("+5") })
-                AssistChip(onClick = { onQuickAdd(10) }, label = { Text("+10") })
+                AssistChip(
+                    onClick = { onQuickAdd(1) },
+                    label = { Text("+1") },
+                    modifier = Modifier.semantics {
+                        contentDescription = cd1
+                    }
+                )
+                AssistChip(
+                    onClick = { onQuickAdd(5) },
+                    label = { Text("+5") },
+                    modifier = Modifier.semantics {
+                        contentDescription = cd5
+                    }
+                )
+                AssistChip(
+                    onClick = { onQuickAdd(10) },
+                    label = { Text("+10") },
+                    modifier = Modifier.semantics {
+                        contentDescription = cd10
+                    }
+                )
             }
         }
     }
