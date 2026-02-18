@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.artimesblue.focusflow.domain.XpCalculationBenchmarkTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-18T16:31:29" hostname="devbox" time="0.319">
+  <properties/>
+  <testcase name="benchmark" classname="com.artimesblue.focusflow.domain.XpCalculationBenchmarkTest" time="0.319"/>
+  <system-out><![CDATA[Baseline average time: 1319 us
+Optimized average time: 566 us
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -31,6 +31,7 @@ private data class DashboardSource(
     val habits: List<Habit>,
     val today: List<ProgressEntry>,
     val goals: List<Goal>,
+    val goalMap: Map<Long, Goal>,
     val date: LocalDate,
     val completionXp: Int?
 )
@@ -48,19 +49,21 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
             selectedDate,
             lastCompletionXp
         ) { habits, today, goals, date, completionXp ->
-            DashboardSource(habits, today, goals, date, completionXp)
+            DashboardSource(habits, today, goals, goals.associateBy { it.id }, date, completionXp)
         }.combine(
             selectedDate.flatMapLatest { repo.streamTasksForDate(it) }
         ) { source, tasks ->
-            val goalMap = source.goals.associateBy { it.id }
-            val xpByCategory = tasks.filter { it.completed }.fold(mutableMapOf<String, Int>()) { acc, task ->
-                val goal = goalMap[task.goalId]
-                val category = goal?.category ?: "Overig"
-                val xp = (goal?.difficulty ?: 1) * task.durationMinutes
-                acc[category] = (acc[category] ?: 0) + xp
-                acc
+            val xpByCategory = mutableMapOf<String, Int>()
+            var totalXp = 0
+            for (task in tasks) {
+                if (task.completed) {
+                    val goal = source.goalMap[task.goalId]
+                    val category = goal?.category ?: "Overig"
+                    val xp = (goal?.difficulty ?: 1) * task.durationMinutes
+                    xpByCategory[category] = (xpByCategory[category] ?: 0) + xp
+                    totalXp += xp
+                }
             }
-            val totalXp = xpByCategory.values.sum()
             DashboardState(
                 habits = source.habits,
                 today = source.today,
