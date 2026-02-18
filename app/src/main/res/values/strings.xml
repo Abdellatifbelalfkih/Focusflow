@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FocusFlow</string>
+    <string name="add_amount_to_habit">Voeg %1$d %2$s toe aan %3$s</string>
 </resources>
