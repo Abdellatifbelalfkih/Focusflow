@@ -1,0 +1,3 @@
+Old Method Time: 173 ms
+New Method Time: 197 ms
+Improvement Factor: 0.88x
