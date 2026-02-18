@@ -74,7 +74,12 @@ class MainActivity : ComponentActivity() {
                 context.startActivity(installIntent)
             }
         }
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        androidx.core.content.ContextCompat.registerReceiver(
+            this,
+            receiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+            androidx.core.content.ContextCompat.RECEIVER_EXPORTED
+        )
         downloadReceiver = receiver
     }
 }
