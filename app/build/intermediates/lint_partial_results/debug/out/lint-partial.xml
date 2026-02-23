@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.2.2" type="partial_results">
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.artimesblue.focusflow.MainActivity"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnsafeImplicitIntentLaunch">
+            <map id="actionsSent">
+                    <map id="android.intent.action.VIEW (used to start an activity)">
+                        <location id="0"
+                            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/artimesblue/focusflow/MainActivity.kt"
+                            line="69"
+                            column="37"
+                            startOffset="3298"
+                            endLine="69"
+                            endColumn="63"
+                            endOffset="3324"/>
+                    </map>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <location id="R.string.app_name"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="2"
+            column="13"
+            startOffset="24"
+            endLine="2"
+            endColumn="28"
+            endOffset="39"/>
+        <location id="R.color.seed"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="2"
+            column="12"
+            startOffset="23"
+            endLine="2"
+            endColumn="23"
+            endOffset="34"/>
+        <entry
+            name="model"
+            string="color[seed(D)],drawable[focusflow_logo(U)],mipmap[ic_launcher_round(U),ic_launcher(U)],string[app_name(D)],style[Theme_Material3_DayNight_NoActionBar(R),Theme_FocusFlow(U)];6^5;;;"/>
+    </map>
+
+</incidents>
