@@ -7,8 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.focus.FocusDirection
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.domain.DashboardViewModel
 
@@ -19,24 +23,32 @@ fun AddHabitScreen(onDone: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var goal by remember { mutableStateOf("") }
     var unit by remember { mutableStateOf("min") }
+    val focusManager = LocalFocusManager.current
 
     Scaffold(topBar = { TopAppBar(title = { Text("Nieuwe gewoonte") }) }) { padding ->
         Column(Modifier.padding(padding).padding(16.dp)) {
             OutlinedTextField(
                 value = name, onValueChange = { name = it },
-                label = { Text("Naam") }, modifier = Modifier.fillMaxWidth()
+                label = { Text("Naam") },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(
                 value = goal, onValueChange = { goal = it },
                 label = { Text("Dagdoel") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(
                 value = unit, onValueChange = { unit = it },
-                label = { Text("Eenheid (bijv. min, reps)") }, modifier = Modifier.fillMaxWidth()
+                label = { Text("Eenheid (bijv. min, reps)") },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(16.dp))
             Button(onClick = {
