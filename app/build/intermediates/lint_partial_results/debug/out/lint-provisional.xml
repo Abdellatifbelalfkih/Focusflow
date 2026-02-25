@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.2.2" type="conditional_incidents">
+
+    <incident
+        id="UnspecifiedRegisterReceiverFlag"
+        severity="error"
+        message="`receiver` \&#xA;is missing `RECEIVER_EXPORTED` or `RECEIVER_NOT_EXPORTED` flag for unprotected \&#xA;broadcasts registered for android.intent.action.DOWNLOAD_COMPLETE">
+        <fix-alternatives>
+            <fix-replace
+                description="Add RECEIVER_NOT_EXPORTED (preferred)"
+                oldString="_lint_insert_end_"
+                replacement=", android.content.Context.RECEIVER_NOT_EXPORTED"
+                shortenNames="true"
+                reformat="value">
+                <range
+                    file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/artimesblue/focusflow/MainActivity.kt"
+                    startOffset="3688"
+                    endOffset="3742"/>
+            </fix-replace>
+            <fix-replace
+                description="Add RECEIVER_EXPORTED"
+                oldString="_lint_insert_end_"
+                replacement=", android.content.Context.RECEIVER_EXPORTED"
+                shortenNames="true"
+                reformat="value">
+                <range
+                    file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/artimesblue/focusflow/MainActivity.kt"
+                    startOffset="3688"
+                    endOffset="3742"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/artimesblue/focusflow/MainActivity.kt"
+            line="77"
+            column="9"
+            startOffset="3661"
+            endLine="77"
+            endColumn="91"
+            endOffset="3743"/>
+        <map>
+            <entry
+                name="hasUnprotected"
+                boolean="true"/>
+        </map>
+    </incident>
+
+</incidents>
