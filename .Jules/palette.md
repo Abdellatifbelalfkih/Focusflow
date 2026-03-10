@@ -1,0 +1,3 @@
+## 2024-03-10 - Jetpack Compose Form Keyboard Navigation
+**Learning:** In Compose, users cannot automatically tab or use the 'Next' keyboard button to move between text fields by default. Additionally, form submission buttons often lack clear visual indication when inputs are invalid.
+**Action:** Always configure `keyboardOptions` with `ImeAction.Next` or `ImeAction.Done` and handle `keyboardActions` via `LocalFocusManager.moveFocus(FocusDirection.Down)` and `LocalFocusManager.clearFocus()` to enable seamless keyboard navigation and a polished mobile UX. Couple this with disabling submit buttons when inputs don't meet validation criteria.
