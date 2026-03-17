@@ -1,0 +1,6 @@
+
+# Additional build ignores
+/app/build/
+/build/
+/.gradle/
+*.log
