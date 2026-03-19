@@ -6,6 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.domain.DashboardViewModel
@@ -20,6 +26,7 @@ fun AddGoalScreen(onDone: () -> Unit) {
     var difficulty by remember { mutableStateOf(2f) }
     var targetMinutes by remember { mutableStateOf(25f) }
     var expanded by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     Scaffold(topBar = { TopAppBar(title = { Text("Nieuwe goal") }) }) { padding ->
         Column(Modifier.padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -27,7 +34,9 @@ fun AddGoalScreen(onDone: () -> Unit) {
                 value = name,
                 onValueChange = { name = it },
                 label = { Text("Naam") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Next) })
             )
             ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
                 OutlinedTextField(
