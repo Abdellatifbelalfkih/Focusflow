@@ -1,0 +1,6 @@
+
+# Additional Build Artifacts
+/app/build/
+/.gradle/
+/build/
+*.log
