@@ -6,6 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.ui.text.input.ImeAction
+
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.domain.DashboardViewModel
@@ -15,6 +22,7 @@ private val goalCategories = listOf("Focus", "Gezondheid", "Leren", "Creatief", 
 @Composable
 fun AddGoalScreen(onDone: () -> Unit) {
     val vm: DashboardViewModel = viewModel()
+    val focusManager = LocalFocusManager.current
     var name by remember { mutableStateOf("") }
     var category by remember { mutableStateOf(goalCategories.first()) }
     var difficulty by remember { mutableStateOf(2f) }
@@ -27,7 +35,9 @@ fun AddGoalScreen(onDone: () -> Unit) {
                 value = name,
                 onValueChange = { name = it },
                 label = { Text("Naam") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
             )
             ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
                 OutlinedTextField(
@@ -36,7 +46,9 @@ fun AddGoalScreen(onDone: () -> Unit) {
                     readOnly = true,
                     label = { Text("Categorie") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    modifier = Modifier.menuAnchor().fillMaxWidth()
+                    modifier = Modifier.menuAnchor().fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                 )
                 ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     goalCategories.forEach { item ->
