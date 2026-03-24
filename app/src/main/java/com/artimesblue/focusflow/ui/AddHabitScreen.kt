@@ -11,6 +11,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artimesblue.focusflow.domain.DashboardViewModel
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.ui.focus.FocusDirection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,33 +23,43 @@ fun AddHabitScreen(onDone: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var goal by remember { mutableStateOf("") }
     var unit by remember { mutableStateOf("min") }
+    val focusManager = LocalFocusManager.current
 
     Scaffold(topBar = { TopAppBar(title = { Text("Nieuwe gewoonte") }) }) { padding ->
         Column(Modifier.padding(padding).padding(16.dp)) {
             OutlinedTextField(
                 value = name, onValueChange = { name = it },
-                label = { Text("Naam") }, modifier = Modifier.fillMaxWidth()
+                label = { Text("Naam") }, modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
             )
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(
                 value = goal, onValueChange = { goal = it },
                 label = { Text("Dagdoel") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(
                 value = unit, onValueChange = { unit = it },
-                label = { Text("Eenheid (bijv. min, reps)") }, modifier = Modifier.fillMaxWidth()
+                label = { Text("Eenheid (bijv. min, reps)") }, modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
             Spacer(Modifier.height(16.dp))
-            Button(onClick = {
-                val g = goal.toIntOrNull() ?: 0
-                if (name.isNotBlank() && g > 0) {
-                    vm.addHabit(name, g, unit)
-                    onDone()
-                }
-            }) { Text("Opslaan") }
+            Button(
+                onClick = {
+                    val g = goal.toIntOrNull() ?: 0
+                    if (name.isNotBlank() && g > 0) {
+                        vm.addHabit(name, g, unit)
+                        onDone()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = name.isNotBlank() && (goal.toIntOrNull() ?: 0) > 0
+            ) { Text("Opslaan") }
         }
     }
 }

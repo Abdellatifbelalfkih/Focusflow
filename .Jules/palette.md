@@ -1,0 +1,3 @@
+## 2024-05-20 - Compose Form Keyboard Navigation
+**Learning:** In Compose applications using Material3, configuring forms for keyboard navigation (using `ImeAction.Next` / `ImeAction.Done` and `LocalFocusManager` for focus control) significantly improves accessibility and UX for keyboard/external input users, but requires specific imports (`androidx.compose.foundation.text.KeyboardOptions` and `KeyboardActions`) which can be easily confused with UI text inputs.
+**Action:** Always map the appropriate `ImeAction` in text fields and bind `keyboardActions` via `LocalFocusManager.current` to provide a seamless form-filling experience. Disable submit buttons until forms validate for immediate visual feedback.
