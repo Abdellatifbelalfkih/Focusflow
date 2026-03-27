@@ -1,0 +1,3 @@
+## 2024-03-27 - Keyboard Navigation & Button Validation
+**Learning:** Implementing `ImeAction.Next` in `KeyboardOptions` combined with `LocalFocusManager` greatly improves keyboard navigation in Jetpack Compose forms. Providing a clear visual state for the submit button by linking its `enabled` state to input validity enhances user understanding of form requirements before they attempt to submit.
+**Action:** Use `ImeAction.Next` and `KeyboardActions` with `FocusDirection.Down` for multi-field forms in Compose, and always map the submit button's enabled state to a derived `isValid` state boolean based on required fields.
