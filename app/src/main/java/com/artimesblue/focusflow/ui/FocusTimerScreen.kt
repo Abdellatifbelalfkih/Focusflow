@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,22 +32,40 @@ fun FocusTimerScreen(onBack: () -> Unit) {
         running = true
     }
 
+
+    DisposableEffect(Unit) {
+        onDispose {
+            timer?.cancel()
+        }
+    }
     Scaffold(topBar = { TopAppBar(title = { Text("Focus timer") }) }) { padding ->
         Column(Modifier.padding(padding).padding(16.dp)) {
             Text("Duur (min)")
-            Slider(value = total / 60f, onValueChange = {
-                if (!running) {
-                    total = it.toInt() * 60
-                    remaining = total
-                }
-            }, valueRange = 5f..60f, steps = 55)
+            var sliderValue by remember { mutableStateOf(total / 60f) }
+            Slider(
+                value = sliderValue,
+                onValueChange = {
+                    if (!running) {
+                        sliderValue = it
+                    }
+                },
+                onValueChangeFinished = {
+                    if (!running) {
+                        total = sliderValue.toInt() * 60
+                        remaining = total
+                    }
+                },
+                valueRange = 5f..60f,
+                steps = 55,
+                modifier = Modifier.semantics { contentDescription = "Timer duration slider" }
+            )
             Spacer(Modifier.height(16.dp))
             Text("Resterend: %02d:%02d".format(remaining/60, remaining%60), style = MaterialTheme.typography.headlineMedium)
             Spacer(Modifier.height(16.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(enabled = !running, onClick = { startTimer() }) { Text("Start") }
                 OutlinedButton(enabled = running, onClick = { stopTimer() }) { Text("Stop") }
-                TextButton(onClick = { remaining = total }) { Text("Reset") }
+                TextButton(onClick = { remaining = total; sliderValue = total / 60f }) { Text("Reset") }
             }
         }
     }
