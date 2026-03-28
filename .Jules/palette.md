@@ -1,0 +1,3 @@
+## 2024-05-24 - Screen Reader Override
+**Learning:** In Jetpack Compose, when overriding the generic text of an existing component (like `AssistChip`'s "+1") with a context-rich screen reader description, using `Modifier.semantics` will append the custom description to the original text. `Modifier.clearAndSetSemantics` is necessary to ensure the screen reader *only* reads the custom description.
+**Action:** Always use `Modifier.clearAndSetSemantics` rather than `Modifier.semantics` when providing dynamic accessibility descriptions for components with existing text labels to prevent redundancy and improve clarity.
